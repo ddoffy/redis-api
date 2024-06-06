@@ -1,0 +1,260 @@
+openapi: 3.0.0
+info:
+  version: 1.0.0
+  title: Pattern API
+  description: API to handle requests with pattern path
+paths:
+  /{pattern}:
+    get:
+      summary: Get resource by pattern
+      description: Retrieve a resource that matches the given pattern.
+      parameters:
+        - in: path
+          name: pattern
+          required: true
+          schema:
+            type: string
+          description: The pattern to match
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: Resource found
+        '404':
+          description: Resource not found
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+                    example: Resource not found
+
+  /{key}:
+    delete:
+      summary: Delete resource by key
+      description: Delete a resource that matches the given key.
+      parameters:
+        - in: path
+          name: key
+          required: true
+          schema:
+            type: string
+          description: The key to match
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: Resource deleted
+        '404':
+          description: Resource not found
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+                    example: Resource not found
+
+  /: 
+    post:
+      summary: Delete a list of resources
+      description: Delete a list of resources that match the given keys.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                keys:
+                  type: array
+                  items:
+                    type: string
+                  example: ["key1", "key2"]
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: Resources deleted
+        '404':
+          description: Resource not found
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+                    example: Resource not found
+
+  /set:
+    post:
+      summary: Set a resource
+      description: Set a resource with the given key and value.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                key:
+                  type: string
+                  example: key
+                value:
+                  type: string
+                  example: value
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: Resource set
+        '404':
+          description: Resource not found
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+                    example: Resource not found
+
+  /setex:
+    post:
+      summary: Set a resource with expiration
+      description: Set a resource with the given key, value and expiration time.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                key:
+                  type: string
+                  example: key
+                value:
+                  type: string
+                  example: value
+                expiration:
+                  type: integer
+                  example: 60
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: Resource set
+        '404':
+          description: Resource not found
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+                    example: Resource not found
+  /mset:
+    post:
+      summary: Set multiple resources
+      description: Set multiple resources with the given keys and values.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                pairs:
+                  type: object
+                  example: [{ "key": "key1", "value": "value1" }, { "key": "key2", "value": "value2" }, { "key": "key3", "value": "value3" }]
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: Resources set
+        '404':
+          description: Resource not found
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+                    example: Resource not found
+  /msetex:
+    post:
+      summary: Set multiple resources with expiration
+      description: Set multiple resources with the given keys, values and expiration times.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                pairs:
+                  type: object
+                  example: [{ "key": "key1", "value": "value1", "expiration": 60 }, { "key": "key2", "value": "value2", "expiration": 120 }, { "key": "key3", "value": "value3", "expiration": 180 }]
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: Resources set
+        '404':
+          description: Resource not found
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+                    example: Resource not found
